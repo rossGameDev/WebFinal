@@ -22,7 +22,8 @@ var Game = mongoose.model("game");
 
 //example routes
 app.get("/", function(req, res){
-    res.send("Hello!");
+    //res.send("Hello!");
+    res.redirect("gameList.html")
 });
 
 app.get("/poop", function(req, res){
@@ -34,16 +35,23 @@ app.post("/saveGame", function(req, res){
 
     new Game(req.body).save().then(function(){
         //res.send(req.body);
-        res.redirect("index.html");
+        //res.redirect("index.html");
+        res.redirect("gameList.html");
     });
-})
+});
 
 app.get("/getGames", function(req, res){
     Game.find({}).then(function(game){
-        console.log({game});
+        //console.log({game});
         res.json({game});
     });
-})
+});
+
+app.post("/deleteGame", function(req, res){
+    console.log(`Game Deleted! ${req.body.game}`)
+    Game.findByIdAndDelete(req.body.game).exec();
+    res.redirect('gameList.html');
+});
 
 app.use(express.static(__dirname+"/pages"));
 app.listen(port, function(){
