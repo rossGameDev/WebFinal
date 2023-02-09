@@ -43,6 +43,25 @@
                             })
                         });
                         gameElement.appendChild(deleteButton);
+
+                        var updateButton = document.createElement("button");
+                        updateButton.innerText = "Update Game";
+                        updateButton.addEventListener("click", function(){
+                            //window.location.replace("/updatePage.html?id=" + game._id);
+                            window.location.replace("/getID:" + game._id + "&name=" + game.game);
+                            //fetch request to server to delete the game
+                            /*location.reload();
+                            fetch("/getID", {
+                                method:"POST",
+                                headers:{
+                                    "Content-Type":"application/json"
+                                },
+                                body:JSON.stringify({
+                                    game:game
+                                })
+                            })*/
+                        });
+                        gameElement.appendChild(updateButton);
                     }
                 })
             })
