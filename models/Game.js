@@ -3,8 +3,13 @@ var Schema = mongoose.Schema;
 
 var Schema = new Schema({
     game:{
-        type:String,
-        required:true
+        type:String
+    },
+    timeElapsed:{
+        type:Number
+    },
+    level:{
+        type:Number
     }
 });
 
