@@ -36,10 +36,6 @@ app.get("/", function(req, res){
     res.redirect("gameList.html")
 });
 
-app.get("/poop", function(req, res){
-    res.send("What's up bro?");
-});
-
 app.post("/saveGame", function(req, res){
     console.log(req.body);
 
@@ -51,15 +47,15 @@ app.post("/saveGame", function(req, res){
 });
 
 app.get("/getGames", function(req, res){
-    Unity.find({}).then(function(game){
+    Unity.find({}).then(function(unity){
         //console.log({game});
-        res.json({game});
+        res.json({unity});
     });
 });
 
 app.post("/deleteGame", function(req, res){
-    console.log(`Game Deleted! ${req.body.game}`)
-    Game.findByIdAndDelete(req.body.game).exec();
+    console.log(`Game Deleted! ${req.body.unity}`)
+    Unity.findByIdAndDelete(req.body.unity).exec();
 });
 
 app.get("/getID::id", function(req, res){
@@ -70,8 +66,9 @@ app.get("/getID::id", function(req, res){
 //update route
 app.post("/updateGame", function(req, res){
     console.log(req.body);
+    console.log(req.body.name)
     //res.redirect("gameList.html");
-    Game.findByIdAndUpdate(req.body.id, {game:req.body.name}, function(){
+    Unity.findByIdAndUpdate(req.body.id, {userName:req.body.name}, function(){
         res.redirect("gameList.html");
     });
 })
@@ -85,12 +82,9 @@ app.post("/search", async function(req, res){
         if (err) return err;
     });
 
-    console.log("Player found!\n" + searchedData.userName + ", " + searchedData.firstName + ", " + searchedData.lastName + ", " + searchedData.startDate + ", " + searchedData.score);
+    console.log("Player found!\n" + searchedData.userName + ", " + searchedData.score);
     searchedDataToSend = {
         "userName" : searchedData.userName,
-        "firstName" : searchedData.firstName,
-        "lastName" : searchedData.lastName,
-        "startDate" : searchedData.startDate,
         "score" : searchedData.score
     }
     //console.log(searchedDataToSend);
@@ -125,16 +119,18 @@ app.post("/unity", function(req, res){
     //}
     //console.log(unityData);
     doc.userName = req.body.userName;
-    doc.firstName = req.body.firstName;
-    doc.lastName = req.body.lastName;
-    doc.startDate = req.body.startDate;
-    doc.score = randomInt(50000000);
+    doc.score = 0;
     //console.log(doc);
     doc.save().then(function(){
         //res.redirect("gameList.html");
         console.log("Saving unity data...");
     });
     //console.log("Unity data saved!");
+})
+
+app.post("/updateScore", function(req, res){
+    //Unity.findByIdAndUpdate(req.body._id)
+    console.log(req.body);
 })
 
 app.get("/sendUnityData", function(req, res){

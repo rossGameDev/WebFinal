@@ -18,12 +18,12 @@
         <script>
             fetch("/getGames").then(function(games){
                 games.json().then(function(theGames){
-                    console.log(theGames);
+                    //console.log("poop" + theGames);
                     //append out container html
-                    for(let game of theGames.game)
+                    for(let unity of theGames.unity)
                     {
                         var gameElement = document.createElement('p');
-                        gameElement.innerHTML = game.game;
+                        gameElement.innerHTML = unity.userName + " " + unity.score;
                         document.getElementById("container").appendChild(gameElement);
 
                         //add delete button
@@ -38,7 +38,7 @@
                                     "Content-Type":"application/json"
                                 },
                                 body:JSON.stringify({
-                                    game:game._id
+                                    unity:unity._id
                                 })
                             })
                         });
@@ -48,7 +48,7 @@
                         updateButton.innerText = "Update Game";
                         updateButton.addEventListener("click", function(){
                             //window.location.replace("/updatePage.html?id=" + game._id);
-                            window.location.replace("/getID:" + game._id + "&name=" + game.game);
+                            window.location.replace("/getID:" + unity._id + "&name=" + unity.userName);
                             //fetch request to server to delete the game
                             /*location.reload();
                             fetch("/getID", {
